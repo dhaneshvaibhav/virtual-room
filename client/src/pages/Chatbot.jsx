@@ -1,5 +1,4 @@
-// client/src/pages/Chatbot.jsx
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { getChatbotReply } from "../api/mockAI";
 
 export default function Chatbot() {
@@ -26,12 +25,7 @@ export default function Chatbot() {
     } catch (err) {
       console.error("AI error", err);
       const errorReply = { id: thinkingMsg.id, role: "bot", text: "Sorry — I couldn't fetch a reply. Try again." };
-      setMsgs((m) => {
-        const copy = [...m];
-        const index = copy.findIndex(msg => msg.id === thinkingMsg.id);
-        if (index !== -1) copy[index] = errorReply;
-        return copy;
-      });
+      setMsgs((m) => m.map(msg => msg.id === thinkingMsg.id ? errorReply : msg));
     }
   }
 
@@ -53,26 +47,50 @@ export default function Chatbot() {
   }, [msgs]);
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold mb-3">AI Study Buddy</h2>
-      <div className="card">
-        <div ref={chatContainerRef} className="space-y-2 max-h-64 overflow-y-auto mb-2 p-2 bg-gray-100 rounded">
-          {msgs.map((m, i) => (
-            <div key={m.id} className={`flex items-start gap-2 ${m.role === 'bot' ? '' : 'justify-end'}`}>
-              <div className={`px-3 py-2 rounded-lg max-w-xs ${m.role === 'bot' ? 'bg-indigo-100 text-gray-800' : 'bg-blue-500 text-white'}`}>
+    <div className="max-w-xl mx-auto p-4">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">AI Study Buddy</h2>
+      <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col gap-3">
+        
+        {/* Chat Messages */}
+        <div 
+          ref={chatContainerRef} 
+          className="flex flex-col gap-2 max-h-80 overflow-y-auto p-2 bg-gray-50 rounded"
+        >
+          {msgs.map((m) => (
+            <div key={m.id} className={`flex ${m.role === 'bot' ? 'justify-start' : 'justify-end'}`}>
+              <div className={`px-4 py-2 rounded-lg max-w-xs break-words
+                ${m.role === 'bot' ? 'bg-indigo-100 text-gray-800' : 'bg-blue-600 text-white'}`}>
                 <p className="text-sm">{m.text}</p>
               </div>
               {m.role === 'bot' && m.text !== 'Thinking...' && (
-                <button onClick={() => speak(m.text)} className="p-1 text-gray-500 hover:text-gray-700">🔊</button>
+                <button 
+                  onClick={() => speak(m.text)} 
+                  className="ml-2 p-1 text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  🔊
+                </button>
               )}
             </div>
           ))}
         </div>
-        
-        <div className="flex gap-2">
-          <input value={text} onChange={(e) => setText(e.target.value)} className="flex-1 px-2 py-1 border rounded" placeholder="Ask me anything about your study..." />
-          <button onClick={send} className="btn bg-blue-600 text-white">Send</button>
+
+        {/* Input Area */}
+        <div className="flex gap-2 mt-2">
+          <input 
+            value={text} 
+            onChange={(e) => setText(e.target.value)} 
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Ask me anything about your study..."
+            onKeyDown={(e) => e.key === "Enter" && send()}
+          />
+          <button 
+            onClick={send} 
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors font-medium"
+          >
+            Send
+          </button>
         </div>
+
       </div>
     </div>
   );

@@ -1,52 +1,54 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppContext } from '../context/AppContext';
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 export default function Welcome() {
   const { name, setName } = useContext(AppContext);
-  const [inputName, setInputName] = useState(name || '');
+  const [inputName, setInputName] = useState(name || "");
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (name) navigate('/dashboard');
+    if (name) navigate("/dashboard");
   }, [name, navigate]);
 
   const handleGetStarted = () => {
-    if (!inputName.trim()) return alert('Please enter your name to get started.');
+    if (!inputName.trim()) return alert("Please enter your name to get started.");
     setName(inputName.trim());
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-indigo-50 to-white p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-2xl p-10 transform transition-all hover:scale-[1.01] border border-indigo-100">
-        <div className="text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-            Virtual Study Room
-          </h1>
-          <div className="h-1 w-24 bg-gradient-to-r from-indigo-600 to-purple-600 mx-auto mb-6"></div>
-          <p className="text-gray-600 mb-8 leading-relaxed">
-            Your all-in-one space for focused solo sessions and collaborative group study. Track your progress, connect with peers, and boost your productivity.
-          </p>
+    <div className="welcome-section d-flex align-items-center justify-content-center min-vh-100 text-center position-relative overflow-hidden">
+      {/* Decorative gradient glow */}
+      <div className="welcome-glow"></div>
+
+      <div className="card welcome-card fade-in-up p-5 shadow-lg border-0">
+        <h1 className="fw-bold mb-3 header-brand">Virtual Study Room</h1>
+        <p className="text-muted mb-4 px-3">
+          Your personal space to stay focused, collaborate with peers, and
+          elevate your study experience. Let’s make learning smarter and fun!
+        </p>
+
+        <div className="form-group mb-4">
+          <input
+            type="text"
+            value={inputName}
+            onChange={(e) => setInputName(e.target.value)}
+            onKeyUp={(e) => e.key === "Enter" && handleGetStarted()}
+            className="form-control form-control-lg text-center rounded-pill shadow-sm"
+            placeholder="Enter your name"
+          />
         </div>
-        
-        <div className="space-y-6">
-          <div className="relative">
-            <input 
-              value={inputName} 
-              onChange={e => setInputName(e.target.value)} 
-              onKeyUp={(e) => e.key === 'Enter' && handleGetStarted()} 
-              className="w-full p-5 border border-indigo-200 rounded-xl bg-indigo-50 focus:ring-3 focus:ring-indigo-500 focus:border-transparent transition-all text-center text-lg outline-none font-medium" 
-              placeholder="Enter your name" 
-            />
-          </div>
-          
-          <button 
-            onClick={handleGetStarted} 
-            className="w-full py-5 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 focus:outline-none focus:ring-3 focus:ring-indigo-500 focus:ring-opacity-50 text-lg"
-          >
-            Get Started
-          </button>
+
+        <button
+          className="btn btn-gradient w-100 rounded-pill py-3 fs-5"
+          onClick={handleGetStarted}
+        >
+          🚀 Get Started
+        </button>
+
+        <div className="mt-4 text-muted small">
+          <em>Built for students who love to learn together 💡</em>
         </div>
       </div>
     </div>

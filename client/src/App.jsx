@@ -25,7 +25,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/chatbot" element={<Chatbot />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="*" element={<NotFound />} />
+          
         </Routes>
       </main>
     </div>

@@ -6,9 +6,13 @@ export default function Tasks() {
   const { tasks, setTasks } = useContext(AppContext);
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">Task Management</h1>
-      <TaskList tasks={tasks} setTasks={setTasks} />
+    <div className="container my-5">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h1 className="card-title mb-4">Task Management</h1>
+          <TaskList tasks={tasks} setTasks={setTasks} />
+        </div>
+      </div>
     </div>
   );
 }
