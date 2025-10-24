@@ -1,0 +1,2 @@
+import React from 'react';
+export default function LeaderboardCard({ user }){ return (<div className='card'><div className='flex items-center gap-3'><div className='w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center'>{user.name?.[0]}</div><div><div className='font-semibold'>{user.name}</div><div className='text-sm text-gray-500'>XP: {user.xpPoints} • Focus: {Math.floor(user.focusTime/60)}m</div></div></div></div>); }

@@ -1,0 +1,8 @@
+{
+  "name": "vroom-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "archiver": "^5.3.1"
+  }
+}
